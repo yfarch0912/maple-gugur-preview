@@ -262,8 +262,58 @@ body.opened #btnMusic{display:flex}
 @media (prefers-reduced-motion: reduce){
   *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important}
   .rv{opacity:1;transform:none}
-  .leaf,.smoke,.birdfly{display:none !important}
+  .leaf,.smoke,.birdfly,.burst-leaf,.spark,.open-burst{display:none !important}
 }
+
+/* ===== BESPOKE: sapu kuas gugur di belakang judul section ===== */
+.sec-title{position:relative;isolation:isolate;padding:3px 16px}
+.brush-emas .sec-title::before,.brush-merah .sec-title::before,.brush-oranye .sec-title::before{content:"";position:absolute;inset:-9px -20px;z-index:-1;opacity:.5;background-position:center;background-size:100% 100%;background-repeat:no-repeat;animation:brushBreath 7s ease-in-out infinite alternate}
+.brush-emas .sec-title::before{background-image:url('assets/undangya/maple-gugur/brush-emas.webp')}
+.brush-merah .sec-title::before{background-image:url('assets/undangya/maple-gugur/brush-merah.webp')}
+.brush-oranye .sec-title::before{background-image:url('assets/undangya/maple-gugur/brush-oranye.webp')}
+@keyframes brushBreath{from{transform:scaleX(.97);opacity:.42}to{transform:scaleX(1.02);opacity:.55}}
+/* ===== BESPOKE: burst hujan daun saat sampul tampil + twinkle sore ===== */
+.burst-leaf{position:absolute;top:-10%;left:var(--lx,10%);width:var(--lw,22px);opacity:0;animation:burstFall var(--bd,2.9s) cubic-bezier(.3,.5,.6,1) both;animation-delay:var(--by,4.6s)}
+@keyframes burstFall{0%{transform:translate3d(0,-8vh,0) rotate(0deg);opacity:0}8%{opacity:1}30%{transform:translate3d(38px,30vh,0) rotate(150deg)}55%{transform:translate3d(-30px,58vh,0) rotate(280deg)}82%{opacity:.95}100%{transform:translate3d(14px,108vh,0) rotate(470deg);opacity:0}}
+.spark{position:absolute;width:7px;height:7px;border-radius:50%;background:radial-gradient(circle,#ffe9a8 0%,rgba(255,205,92,.55) 45%,transparent 72%);opacity:0;animation:sparkTw 3.8s ease-in-out infinite;animation-delay:var(--sy,0s);z-index:5;pointer-events:none}
+@keyframes sparkTw{0%,100%{opacity:0;transform:scale(.5)}50%{opacity:.95;transform:scale(1.25)}}
+/* ===== BESPOKE: burst daun saat undangan DIBUKA (sekali jalan, CSS) ===== */
+.open-burst{display:none;position:absolute;top:0;left:0;right:0;height:100dvh;overflow:hidden;pointer-events:none;z-index:60}
+body.opened .open-burst{display:block}
+.open-burst .burst-leaf{animation-name:burstFall;animation-delay:var(--by,0s)}
+/* ===== BESPOKE: countdown LINGKARAN TAHUN POHON ===== */
+.cd-ring{position:relative;width:82px;height:82px;flex:0 0 auto}
+.cd-ring .ring-spin{width:100%;height:100%;animation:ringSpin 72s linear infinite;filter:drop-shadow(0 8px 16px rgba(60,32,4,.35))}
+.cd-ring::after{content:"";position:absolute;inset:-6px;border-radius:50%;border:2px dashed rgba(217,111,38,.75);animation:ringSpinRev 48s linear infinite;pointer-events:none}
+@keyframes ringSpin{to{transform:rotate(360deg)}}
+@keyframes ringSpinRev{to{transform:rotate(-360deg)}}
+.cd-in{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;background:radial-gradient(circle,rgba(253,243,223,.9) 0 40%,rgba(253,243,223,.38) 57%,transparent 71%)}
+.cd-in b{display:block;font-size:24px;line-height:1.05;color:#4a2c17;text-shadow:0 1px 0 rgba(255,246,220,.8)}
+.cd-in span{font-size:9px;letter-spacing:.2em;color:#7a3c10;text-transform:uppercase;font-weight:700}
+.cd-in b.pop{animation:cdpop .45s ease}
+/* ===== BESPOKE: love story JALUR MUSIM berkelok ===== */
+.tl:before{display:none}
+.tl-path{position:absolute;left:0;top:6px;width:44px;height:calc(100% - 12px);z-index:0;opacity:.8}
+.tl-leaf{position:absolute;top:2px;width:36px;height:36px;object-fit:contain;padding:4px;border-radius:50%;background:radial-gradient(circle,rgba(253,243,223,.96) 58%,rgba(253,243,223,.75) 78%,transparent 100%);z-index:2;filter:drop-shadow(0 3px 6px rgba(120,60,5,.35));transform-origin:50% 50%;animation:markerSway var(--d,5.6s) ease-in-out infinite alternate}
+@keyframes markerSway{from{transform:rotate(-9deg)}to{transform:rotate(9deg)}}
+.tl-leaf-deep{filter:drop-shadow(0 3px 6px rgba(120,60,5,.35)) hue-rotate(-16deg) saturate(1.5) brightness(.82)}
+/* ===== BESPOKE: galeri ALBUM DAUN PRES ===== */
+.album-page{position:relative;background:linear-gradient(165deg,#fdf6e3,#f7e8c8 70%,#f3deb2);border:1px solid rgba(150,95,35,.45);border-radius:8px;padding:14px 13px 10px;box-shadow:0 16px 30px rgba(110,58,10,.28)}
+.gal-item:nth-child(odd) .album-page{transform:rotate(-1.1deg)}
+.gal-item:nth-child(even) .album-page{transform:rotate(1deg)}
+.album-page::before{content:"";position:absolute;top:-9px;left:50%;transform:translateX(-50%) rotate(-2deg);width:92px;height:20px;background:linear-gradient(180deg,rgba(233,197,120,.85),rgba(217,164,65,.75));border-left:1px dashed rgba(122,60,16,.35);border-right:1px dashed rgba(122,60,16,.35);box-shadow:0 2px 5px rgba(110,58,10,.2);z-index:3}
+.album-photo{border:2px solid #fffdf4;outline:1px solid rgba(150,95,35,.4);box-shadow:0 6px 14px rgba(110,58,10,.22);overflow:hidden;position:relative}
+.album-photo img{width:100%;height:296px;object-fit:cover;display:block}
+.press-leaf{position:absolute;top:2px;right:-4px;width:46px;z-index:4;transform:rotate(18deg);filter:drop-shadow(0 3px 5px rgba(110,58,10,.35))}
+.album-label{font-family:'Great Vibes',cursive;font-size:24px;color:#6d3410;text-align:center;margin-top:9px;line-height:1.15;animation:chipFloat 5.2s ease-in-out infinite alternate}
+.album-place{display:block;font-family:Georgia,serif;font-size:10.5px;letter-spacing:.22em;color:#8a5a24;text-transform:uppercase;margin-top:2px}
+.gal-wide{flex-basis:88%}
+.gal-wide .album-photo img{height:212px}
+.lake-shimmer{position:absolute;inset:0;pointer-events:none;background:linear-gradient(115deg,transparent 30%,rgba(255,236,170,.34) 48%,rgba(255,255,255,.22) 52%,transparent 68%);background-size:260% 100%;animation:lakeShim 5.6s ease-in-out infinite}
+@keyframes lakeShim{0%{background-position:130% 0}55%,100%{background-position:-40% 0}}
+.hero-breath img{animation:breathZoom 11s ease-in-out infinite alternate}
+@keyframes breathZoom{from{transform:scale(1)}to{transform:scale(1.07)}}
+
 </style>
 </head>
 <body>
@@ -279,6 +329,7 @@ body.opened #btnMusic{display:flex}
       <img class="lyr branch-tr" style="width:57%" src="assets/undangya/maple-gugur/branch-r.webp" alt="" width="549" height="380">
       <div class="lyr lantern-hang" style="left:6%;top:34%;width:13%;--d:7.4s;z-index:5" aria-hidden="true"><img src="assets/undangya/maple-gugur/lantern.webp" alt="" loading="lazy" decoding="async"></div>
       <div class="lyr lantern-hang" style="right:5%;top:40%;width:11%;--d:8.3s;z-index:5" aria-hidden="true"><img src="assets/undangya/maple-gugur/lantern.webp" alt="" loading="lazy" decoding="async"></div>
+      <span class="spark" style="left:12%;top:18%;--sy:4.9s" aria-hidden="true"></span><span class="spark" style="left:24%;top:10%;--sy:5.6s" aria-hidden="true"></span><span class="spark" style="left:38%;top:22%;--sy:5.2s" aria-hidden="true"></span><span class="spark" style="left:55%;top:12%;--sy:6.1s" aria-hidden="true"></span><span class="spark" style="left:68%;top:20%;--sy:5.4s" aria-hidden="true"></span><span class="spark" style="left:80%;top:14%;--sy:5.9s" aria-hidden="true"></span><span class="spark" style="left:90%;top:26%;--sy:5.1s" aria-hidden="true"></span><span class="spark" style="left:46%;top:30%;--sy:6.4s" aria-hidden="true"></span>
       <div class="birdfly" aria-hidden="true"><span><svg width="34" height="12" viewBox="0 0 34 12"><path d="M1 8 Q9 1 17 8 Q25 1 33 8" fill="none" stroke="#4a2c17" stroke-width="2" stroke-linecap="round"/></svg></span></div>
       <div class="leaf-field" aria-hidden="true">
         <img class="leaf" style="--lx:6%;--lw:24px;--ld:16s;--ly:-2s" src="assets/undangya/maple-gugur/leaf-fall.webp" alt="">
@@ -294,6 +345,7 @@ body.opened #btnMusic{display:flex}
         <img class="leaf" style="--lx:33%;--lw:19px;--ld:24s;--ly:-16s" src="assets/undangya/maple-gugur/leaf-fall.webp" alt="">
         <img class="leaf" style="--lx:71%;--lw:14px;--ld:25s;--ly:-18s" src="assets/undangya/maple-gugur/leaf-fall.webp" alt="">
       </div>
+      <div class="leaf-field" aria-hidden="true"><img class="burst-leaf" style="--lx:3%;--lw:20px;--bd:2.7s;--by:4.55s" src="assets/undangya/maple-gugur/leaf-fall.webp" alt=""><img class="burst-leaf" style="--lx:9%;--lw:26px;--bd:3.1s;--by:4.7s" src="assets/undangya/maple-gugur/leaf-fall.webp" alt=""><img class="burst-leaf" style="--lx:15%;--lw:17px;--bd:2.6s;--by:4.62s" src="assets/undangya/maple-gugur/leaf-fall.webp" alt=""><img class="burst-leaf" style="--lx:21%;--lw:24px;--bd:3.0s;--by:4.85s" src="assets/undangya/maple-gugur/leaf-fall.webp" alt=""><img class="burst-leaf" style="--lx:27%;--lw:15px;--bd:2.5s;--by:4.58s" src="assets/undangya/maple-gugur/leaf-fall.webp" alt=""><img class="burst-leaf" style="--lx:33%;--lw:25px;--bd:3.2s;--by:4.78s" src="assets/undangya/maple-gugur/leaf-fall.webp" alt=""><img class="burst-leaf" style="--lx:39%;--lw:18px;--bd:2.7s;--by:4.66s" src="assets/undangya/maple-gugur/leaf-fall.webp" alt=""><img class="burst-leaf" style="--lx:45%;--lw:23px;--bd:2.9s;--by:4.9s" src="assets/undangya/maple-gugur/leaf-fall.webp" alt=""><img class="burst-leaf" style="--lx:51%;--lw:16px;--bd:2.55s;--by:4.6s" src="assets/undangya/maple-gugur/leaf-fall.webp" alt=""><img class="burst-leaf" style="--lx:57%;--lw:26px;--bd:3.15s;--by:4.82s" src="assets/undangya/maple-gugur/leaf-fall.webp" alt=""><img class="burst-leaf" style="--lx:63%;--lw:19px;--bd:2.75s;--by:4.7s" src="assets/undangya/maple-gugur/leaf-fall.webp" alt=""><img class="burst-leaf" style="--lx:69%;--lw:22px;--bd:2.95s;--by:4.57s" src="assets/undangya/maple-gugur/leaf-fall.webp" alt=""><img class="burst-leaf" style="--lx:75%;--lw:15px;--bd:2.5s;--by:4.88s" src="assets/undangya/maple-gugur/leaf-fall.webp" alt=""><img class="burst-leaf" style="--lx:81%;--lw:25px;--bd:3.05s;--by:4.64s" src="assets/undangya/maple-gugur/leaf-fall.webp" alt=""><img class="burst-leaf" style="--lx:87%;--lw:18px;--bd:2.65s;--by:4.76s" src="assets/undangya/maple-gugur/leaf-fall.webp" alt=""><img class="burst-leaf" style="--lx:93%;--lw:24px;--bd:2.85s;--by:4.68s" src="assets/undangya/maple-gugur/leaf-fall.webp" alt=""><img class="burst-leaf" style="--lx:12%;--lw:14px;--bd:2.45s;--by:4.95s" src="assets/undangya/maple-gugur/leaf-fall.webp" alt=""><img class="burst-leaf" style="--lx:48%;--lw:14px;--bd:2.4s;--by:5.0s" src="assets/undangya/maple-gugur/leaf-fall.webp" alt=""><img class="burst-leaf" style="--lx:72%;--lw:14px;--bd:2.42s;--by:4.98s" src="assets/undangya/maple-gugur/leaf-fall.webp" alt=""><img class="burst-leaf" style="--lx:30%;--lw:13px;--bd:2.35s;--by:5.05s" src="assets/undangya/maple-gugur/leaf-fall.webp" alt=""></div>
       <div class="cover-shade"></div>
     </div>
     <div class="cover-ui">
@@ -306,6 +358,7 @@ body.opened #btnMusic{display:flex}
       <button id="btnOpen" type="button">🍂 BUKA UNDANGAN</button>
     </div>
   </header>
+  <div class="open-burst" aria-hidden="true"><img class="burst-leaf" style="--lx:5%;--lw:22px;--bd:2.5s;--by:0.05s" src="assets/undangya/maple-gugur/leaf-fall.webp" alt=""><img class="burst-leaf" style="--lx:14%;--lw:17px;--bd:2.9s;--by:0.18s" src="assets/undangya/maple-gugur/leaf-fall.webp" alt=""><img class="burst-leaf" style="--lx:24%;--lw:25px;--bd:2.6s;--by:0.1s" src="assets/undangya/maple-gugur/leaf-fall.webp" alt=""><img class="burst-leaf" style="--lx:35%;--lw:16px;--bd:2.35s;--by:0.24s" src="assets/undangya/maple-gugur/leaf-fall.webp" alt=""><img class="burst-leaf" style="--lx:44%;--lw:23px;--bd:2.8s;--by:0.02s" src="assets/undangya/maple-gugur/leaf-fall.webp" alt=""><img class="burst-leaf" style="--lx:53%;--lw:18px;--bd:2.5s;--by:0.2s" src="assets/undangya/maple-gugur/leaf-fall.webp" alt=""><img class="burst-leaf" style="--lx:62%;--lw:26px;--bd:2.95s;--by:0.12s" src="assets/undangya/maple-gugur/leaf-fall.webp" alt=""><img class="burst-leaf" style="--lx:71%;--lw:15px;--bd:2.3s;--by:0.28s" src="assets/undangya/maple-gugur/leaf-fall.webp" alt=""><img class="burst-leaf" style="--lx:80%;--lw:21px;--bd:2.65s;--by:0.07s" src="assets/undangya/maple-gugur/leaf-fall.webp" alt=""><img class="burst-leaf" style="--lx:89%;--lw:24px;--bd:2.85s;--by:0.16s" src="assets/undangya/maple-gugur/leaf-fall.webp" alt=""><img class="burst-leaf" style="--lx:33%;--lw:14px;--bd:2.2s;--by:0.34s" src="assets/undangya/maple-gugur/leaf-fall.webp" alt=""><img class="burst-leaf" style="--lx:66%;--lw:14px;--bd:2.25s;--by:0.3s" src="assets/undangya/maple-gugur/leaf-fall.webp" alt=""></div>
 
   <main id="content">
     <div class="world-bg" aria-hidden="true"><div class="world-stack" id="worldStack"><img src="assets/undangya/maple-gugur/bg-world-1.webp" alt="" width="720" height="546" decoding="async"><img src="assets/undangya/maple-gugur/bg-world-2.webp" alt="" width="720" height="660" loading="lazy" decoding="async"><img src="assets/undangya/maple-gugur/bg-world-3.webp" alt="" width="720" height="660" loading="lazy" decoding="async"><img src="assets/undangya/maple-gugur/bg-world-4.webp" alt="" width="720" height="666" loading="lazy" decoding="async"><img src="assets/undangya/maple-gugur/bg-world-5.webp" alt="" width="720" height="486" loading="lazy" decoding="async"></div></div>
@@ -313,7 +366,7 @@ body.opened #btnMusic{display:flex}
     <!-- ================= PEMBUKA ================= -->
     <section id="sambutan">
       <div class="bg-tint">
-        <div class="sec-head rv rv-drop head-panel">
+        <div class="sec-head rv rv-drop head-panel brush-emas">
           <img class="sec-decor sway-b" style="--d:7.6s" src="assets/undangya/maple-gugur/leaf-red.webp" alt="" loading="lazy" decoding="async">
           <div class="sec-kicker">DENGAN MEMOHON RAHMAT ALLAH SWT</div>
           <h2 class="sec-title">Musim yang Paling Hangat</h2>
@@ -335,7 +388,7 @@ body.opened #btnMusic{display:flex}
         <img class="leaf leaf-s" style="--lx:55%;--lw:13px;--ld:26s;--ly:-17s" src="assets/undangya/maple-gugur/leaf-fall.webp" alt="">
       </div>
       <div class="bg-tint">
-      <div class="sec-head rv rv-up head-panel">
+      <div class="sec-head rv rv-up head-panel brush-merah">
         <img class="sec-icon" src="assets/undangya/maple-gugur/icon-rings.webp" alt="" loading="lazy" decoding="async">
         <div class="sec-kicker">MEMPELAI</div>
         <h2 class="sec-title">Dua Hati di Hutan Maple</h2>
@@ -358,7 +411,7 @@ body.opened #btnMusic{display:flex}
         </div>
       </div>
       <div class="rv rv-zoom panel-glass" style="margin-top:36px;padding:20px 18px 14px">
-        <div class="arch" style="height:320px"><img src="assets/undangya/maple-gugur/hero.webp" alt="Meyzsa dan Fahrezzi saling tersenyum di jalan setapak daun gugur" loading="lazy" decoding="async"></div>
+        <div class="arch hero-breath" style="height:320px"><img src="assets/undangya/maple-gugur/hero.webp" alt="Meyzsa dan Fahrezzi saling tersenyum di jalan setapak daun gugur" loading="lazy" decoding="async"></div>
         <p class="gal-cap" style="text-align:center;font-style:italic;font-size:14.5px;color:var(--mut);margin-top:7px">Di jalan setapak daun gugur, tempat kisah kami bermula.</p>
       </div>
       </div>
@@ -367,15 +420,16 @@ body.opened #btnMusic{display:flex}
     <!-- ================= LOVE STORY ================= -->
     <section id="kisah">
       <div class="bg-tint">
-        <div class="sec-head rv rv-zoom head-panel">
+        <div class="sec-head rv rv-zoom head-panel brush-oranye">
           <img class="sec-decor" src="assets/undangya/maple-gugur/berry.webp" alt="" loading="lazy" decoding="async">
           <div class="sec-kicker">LOVE STORY</div>
           <h2 class="sec-title">Empat Musim Kisah Kami</h2>
           <p class="sec-sub">Bab-bab hangat yang membawa kami sampai ke hari ini</p>
         </div>
         <div class="tl">
+          <svg class="tl-path" viewBox="0 0 44 900" preserveAspectRatio="none" aria-hidden="true"><path d="M22 0 C 38 130, 6 250, 22 380 C 38 510, 6 630, 22 760 C 30 830, 22 870, 22 900" fill="none" stroke="#d96f26" stroke-width="2.4" stroke-dasharray="7 8" stroke-linecap="round"/></svg>
           <div class="tl-item rv rv-left">
-            <span class="tl-dot" aria-hidden="true"></span>
+            <img class="tl-leaf" style="left:2px;--d:5.2s" src="assets/undangya/maple-gugur/leaf-gold.webp" alt="" loading="lazy" decoding="async">
             <div class="tl-card">
               <img class="tl-thumb" src="assets/undangya/maple-gugur/galeri-5.webp" alt="Pasangan di kebun apel saat awal kisah" loading="lazy" decoding="async">
               <div class="tl-year">2019</div>
@@ -384,7 +438,7 @@ body.opened #btnMusic{display:flex}
             </div>
           </div>
           <div class="tl-item rv rv-right">
-            <span class="tl-dot" aria-hidden="true"></span>
+            <img class="tl-leaf" style="left:14px;--d:6.1s" src="assets/undangya/maple-gugur/leaf-orange.webp" alt="" loading="lazy" decoding="async">
             <div class="tl-card">
               <img class="tl-thumb" src="assets/undangya/maple-gugur/galeri-2.webp" alt="Pasangan pada momen lamaran di teras pondok" loading="lazy" decoding="async">
               <div class="tl-year">2023</div>
@@ -393,7 +447,7 @@ body.opened #btnMusic{display:flex}
             </div>
           </div>
           <div class="tl-item rv rv-left">
-            <span class="tl-dot" aria-hidden="true"></span>
+            <img class="tl-leaf" style="left:2px;--d:5.6s" src="assets/undangya/maple-gugur/leaf-red.webp" alt="" loading="lazy" decoding="async">
             <div class="tl-card">
               <img class="tl-thumb" src="assets/undangya/maple-gugur/galeri-4.webp" alt="Dua keluarga saling mengenal di jembatan kayu" loading="lazy" decoding="async">
               <div class="tl-year">2025</div>
@@ -402,7 +456,7 @@ body.opened #btnMusic{display:flex}
             </div>
           </div>
           <div class="tl-item rv rv-right">
-            <span class="tl-dot" aria-hidden="true"></span>
+            <img class="tl-leaf tl-leaf-deep" style="left:14px;--d:6.5s" src="assets/undangya/maple-gugur/leaf-red.webp" alt="" loading="lazy" decoding="async">
             <div class="tl-card">
               <img class="tl-thumb" src="assets/undangya/maple-gugur/hero.webp" alt="Pasangan di hari bahagia" loading="lazy" decoding="async">
               <div class="tl-year">2027</div>
@@ -422,17 +476,18 @@ body.opened #btnMusic{display:flex}
         <img class="leaf leaf-s" style="--lx:88%;--lw:19px;--ld:18s;--ly:-3s" src="assets/undangya/maple-gugur/leaf-fall.webp" alt="">
       </div>
       <div class="bg-tint">
-        <div class="sec-head rv rv-pop head-panel">
+        <div class="sec-head rv rv-pop head-panel brush-emas">
           <img class="sec-icon" src="assets/undangya/maple-gugur/icon-clock.webp" alt="" loading="lazy" decoding="async">
           <div class="sec-kicker">HITUNG MUNDUR</div>
           <h2 class="sec-title">Menuju Hari Bahagia</h2>
         </div>
         <div class="countdown rv rv-zoom" id="countdown" data-target="2027-06-12T08:00:00+07:00" aria-label="Hitung mundur menuju akad nikah">
-          <div class="cd-box"><b id="cdD">0</b><span>Hari</span></div>
-          <div class="cd-box"><b id="cdH">0</b><span>Jam</span></div>
-          <div class="cd-box"><b id="cdM">0</b><span>Menit</span></div>
-          <div class="cd-box"><b id="cdS">0</b><span>Detik</span></div>
+          <div class="cd-ring"><img class="ring-spin" src="assets/undangya/maple-gugur/rings-wood.webp" alt="" loading="lazy" decoding="async"><div class="cd-in"><b id="cdD">0</b><span>Hari</span></div></div>
+          <div class="cd-ring"><img class="ring-spin" src="assets/undangya/maple-gugur/rings-wood.webp" alt="" loading="lazy" decoding="async"><div class="cd-in"><b id="cdH">0</b><span>Jam</span></div></div>
+          <div class="cd-ring"><img class="ring-spin" src="assets/undangya/maple-gugur/rings-wood.webp" alt="" loading="lazy" decoding="async"><div class="cd-in"><b id="cdM">0</b><span>Menit</span></div></div>
+          <div class="cd-ring"><img class="ring-spin" src="assets/undangya/maple-gugur/rings-wood.webp" alt="" loading="lazy" decoding="async"><div class="cd-in"><b id="cdS">0</b><span>Detik</span></div></div>
         </div>
+        <p class="demo-note rv rv-up" style="margin-bottom:8px;background:rgba(58,36,19,.88);color:#ffe9bd;border-radius:999px;padding:6px 12px;display:table;margin-left:auto;margin-right:auto">Setiap angka berputar perlahan di dalam cincin tahun pohon — satu lingkaran musim, menuju musim terhangat kami.</p>
         <p class="demo-note rv rv-up" style="margin-bottom:26px;background:rgba(58,36,19,.88);color:#ffe9bd;border-radius:999px;padding:6px 12px;display:table;margin-left:auto;margin-right:auto">Sabtu, 12 Juni 2027 — Jakarta</p>
 
         <div class="card event rv rv-flip">
@@ -482,21 +537,21 @@ body.opened #btnMusic{display:flex}
     <!-- ================= GALERI REL GESER ================= -->
     <section id="galeri">
       <div class="bg-tint">
-      <div class="sec-head rv rv-up head-panel">
+      <div class="sec-head rv rv-up head-panel brush-merah">
         <img class="sec-decor sway-b" style="--d:8.8s" src="assets/undangya/maple-gugur/leaf-orange.webp" alt="" loading="lazy" decoding="async">
         <div class="sec-kicker">GALERI</div>
         <h2 class="sec-title">Lembaran Musim Gugur</h2>
-        <p class="sec-sub">Geser untuk menyusuri delapan potret kami — ketuk untuk memperbesar</p>
+        <p class="sec-sub">Album daun pres kami — geser menyusuri halaman kenangan, ketuk foto untuk memperbesar</p>
       </div>
       <div class="gal-rail rv rv-zoom" id="galRail">
-        <figure class="gal-item"><div class="arch"><img src="assets/undangya/maple-gugur/galeri-1.webp" alt="Pasangan berjalan bergandengan di lorong maple" loading="lazy" decoding="async"></div><figcaption class="gal-cap" style="text-align:center;font-style:italic;font-size:14.5px;color:var(--mut);margin-top:7px">Lorong Maple</figcaption></figure>
-        <figure class="gal-item"><div class="arch"><img src="assets/undangya/maple-gugur/galeri-2.webp" alt="Pasangan duduk di teras pondok kayu" loading="lazy" decoding="async"></div><figcaption class="gal-cap" style="text-align:center;font-style:italic;font-size:14.5px;color:var(--mut);margin-top:7px">Teras Pondok</figcaption></figure>
-        <figure class="gal-item"><div class="arch"><img src="assets/undangya/maple-gugur/galeri-3.webp" alt="Pasangan di tepi danau tenang" loading="lazy" decoding="async"></div><figcaption class="gal-cap" style="text-align:center;font-style:italic;font-size:14.5px;color:var(--mut);margin-top:7px">Danau Tenang</figcaption></figure>
-        <figure class="gal-item"><div class="arch"><img src="assets/undangya/maple-gugur/galeri-4.webp" alt="Pasangan menyeberangi jembatan kayu" loading="lazy" decoding="async"></div><figcaption class="gal-cap" style="text-align:center;font-style:italic;font-size:14.5px;color:var(--mut);margin-top:7px">Jembatan Kayu</figcaption></figure>
-        <figure class="gal-item"><div class="arch"><img src="assets/undangya/maple-gugur/galeri-5.webp" alt="Pasangan di kebun apel" loading="lazy" decoding="async"></div><figcaption class="gal-cap" style="text-align:center;font-style:italic;font-size:14.5px;color:var(--mut);margin-top:7px">Kebun Apel</figcaption></figure>
-        <figure class="gal-item"><div class="arch"><img src="assets/undangya/maple-gugur/galeri-6.webp" alt="Pasangan piknik di bawah pohon maple merah" loading="lazy" decoding="async"></div><figcaption class="gal-cap" style="text-align:center;font-style:italic;font-size:14.5px;color:var(--mut);margin-top:7px">Piknik Hangat</figcaption></figure>
-        <figure class="gal-item"><div class="arch"><img src="assets/undangya/maple-gugur/galeri-7.webp" alt="Pasangan melempar daun maple sambil tertawa" loading="lazy" decoding="async"></div><figcaption class="gal-cap" style="text-align:center;font-style:italic;font-size:14.5px;color:var(--mut);margin-top:7px">Hujan Daun</figcaption></figure>
-        <figure class="gal-item"><div class="arch"><img src="assets/undangya/maple-gugur/galeri-8.webp" alt="Pasangan memegang lentera saat senja di pondok" loading="lazy" decoding="async"></div><figcaption class="gal-cap" style="text-align:center;font-style:italic;font-size:14.5px;color:var(--mut);margin-top:7px">Lentera Senja</figcaption></figure>
+        <figure class="gal-item"><div class="album-page"><img class="press-leaf" src="assets/undangya/maple-gugur/leaf-red.webp" alt="" loading="lazy" decoding="async"><div class="album-photo"><img src="assets/undangya/maple-gugur/galeri-1.webp" alt="Pasangan berjalan bergandengan di lorong maple" loading="lazy" decoding="async"></div><figcaption class="album-label">Lorong Maple<span class="album-place">Jalan Maple · September</span></figcaption></div></figure>
+        <figure class="gal-item"><div class="album-page"><img class="press-leaf" src="assets/undangya/maple-gugur/leaf-orange.webp" alt="" loading="lazy" decoding="async"><div class="album-photo"><img src="assets/undangya/maple-gugur/galeri-2.webp" alt="Pasangan duduk di teras pondok kayu" loading="lazy" decoding="async"></div><figcaption class="album-label">Teras Pondok<span class="album-place">Pondok Senja · Oktober</span></figcaption></div></figure>
+        <figure class="gal-item gal-wide"><div class="album-page"><img class="press-leaf" src="assets/undangya/maple-gugur/leaf-gold.webp" alt="" loading="lazy" decoding="async"><div class="album-photo"><img src="assets/undangya/maple-gugur/galeri-3.webp" alt="Pasangan di tepi danau tenang" loading="lazy" decoding="async"><span class="lake-shimmer" aria-hidden="true"></span></div><figcaption class="album-label">Danau Senja<span class="album-place">Danau Senja · Oktober</span></figcaption></div></figure>
+        <figure class="gal-item"><div class="album-page"><img class="press-leaf" src="assets/undangya/maple-gugur/leaf-orange.webp" alt="" loading="lazy" decoding="async"><div class="album-photo"><img src="assets/undangya/maple-gugur/galeri-4.webp" alt="Pasangan menyeberangi jembatan kayu" loading="lazy" decoding="async"></div><figcaption class="album-label">Jembatan Kayu<span class="album-place">Jembatan Kayu · Agustus</span></figcaption></div></figure>
+        <figure class="gal-item"><div class="album-page"><img class="press-leaf" src="assets/undangya/maple-gugur/leaf-red.webp" alt="" loading="lazy" decoding="async"><div class="album-photo"><img src="assets/undangya/maple-gugur/galeri-5.webp" alt="Pasangan di kebun apel" loading="lazy" decoding="async"></div><figcaption class="album-label">Kebun Apel<span class="album-place">Kebun Apel · September</span></figcaption></div></figure>
+        <figure class="gal-item"><div class="album-page"><img class="press-leaf" src="assets/undangya/maple-gugur/leaf-gold.webp" alt="" loading="lazy" decoding="async"><div class="album-photo"><img src="assets/undangya/maple-gugur/galeri-6.webp" alt="Pasangan piknik di bawah pohon maple merah" loading="lazy" decoding="async"></div><figcaption class="album-label">Piknik Hangat<span class="album-place">Taman Maple · Oktober</span></figcaption></div></figure>
+        <figure class="gal-item"><div class="album-page"><img class="press-leaf" src="assets/undangya/maple-gugur/leaf-orange.webp" alt="" loading="lazy" decoding="async"><div class="album-photo"><img src="assets/undangya/maple-gugur/galeri-7.webp" alt="Pasangan melempar daun maple sambil tertawa" loading="lazy" decoding="async"></div><figcaption class="album-label">Hujan Daun<span class="album-place">Halaman Pondok · November</span></figcaption></div></figure>
+        <figure class="gal-item"><div class="album-page"><img class="press-leaf" src="assets/undangya/maple-gugur/leaf-red.webp" alt="" loading="lazy" decoding="async"><div class="album-photo"><img src="assets/undangya/maple-gugur/galeri-8.webp" alt="Pasangan memegang lentera saat senja di pondok" loading="lazy" decoding="async"></div><figcaption class="album-label">Lentera Senja<span class="album-place">Senja di Pondok · November</span></figcaption></div></figure>
       </div>
       <div class="gal-dots" id="galDots" aria-hidden="true"><i class="on"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
       <div class="gal-frac" id="galFrac">1 / 8</div>
@@ -506,7 +561,7 @@ body.opened #btnMusic{display:flex}
     <!-- ================= CUPLIKAN VIDEO ================= -->
     <section id="cuplikan">
       <div class="bg-tint">
-        <div class="sec-head rv rv-drop head-panel">
+        <div class="sec-head rv rv-drop head-panel brush-oranye">
           <img class="sec-decor sway-b" style="--d:7.9s" src="assets/undangya/maple-gugur/leaf-gold.webp" alt="" loading="lazy" decoding="async">
           <div class="sec-kicker">CUPLIKAN VIDEO</div>
           <h2 class="sec-title">Teaser Musim Gugur</h2>
@@ -527,7 +582,7 @@ body.opened #btnMusic{display:flex}
     <!-- ================= LIVE STREAMING + TAGAR + GALERI TAMU ================= -->
     <section id="live">
       <div class="bg-tint">
-        <div class="sec-head rv rv-up head-panel">
+        <div class="sec-head rv rv-up head-panel brush-emas">
           <img class="sec-icon" src="assets/undangya/maple-gugur/icon-pin.webp" alt="" loading="lazy" decoding="async">
           <div class="sec-kicker">LIVE STREAMING</div>
           <h2 class="sec-title">Siaran Langsung</h2>
@@ -565,7 +620,7 @@ body.opened #btnMusic{display:flex}
         <img class="leaf leaf-s" style="--lx:90%;--lw:17px;--ld:20s;--ly:-14s" src="assets/undangya/maple-gugur/leaf-fall.webp" alt="">
       </div>
       <div class="bg-tint">
-        <div class="sec-head rv rv-left head-panel">
+        <div class="sec-head rv rv-left head-panel brush-merah">
           <img class="sec-icon" src="assets/undangya/maple-gugur/icon-envelope.webp" alt="" loading="lazy" decoding="async">
           <div class="sec-kicker">RSVP &amp; UCAPAN</div>
           <h2 class="sec-title">Dinding Ucapan Hangat</h2>
@@ -588,7 +643,7 @@ body.opened #btnMusic{display:flex}
     <!-- ================= BUKU TAMU & CHECK-IN QR ================= -->
     <section id="bukutamu">
       <div class="bg-tint">
-        <div class="sec-head rv rv-pop head-panel">
+        <div class="sec-head rv rv-pop head-panel brush-oranye">
           <img class="sec-icon" src="assets/undangya/maple-gugur/icon-book.webp" alt="" loading="lazy" decoding="async">
           <div class="sec-kicker">BUKU TAMU &amp; CHECK-IN</div>
           <h2 class="sec-title">Presensi Digital</h2>
@@ -613,7 +668,7 @@ body.opened #btnMusic{display:flex}
     <!-- ================= AMPLOP + KADO FISIK ================= -->
     <section id="amplop">
       <div class="bg-tint">
-      <div class="sec-head rv rv-drop head-panel">
+      <div class="sec-head rv rv-drop head-panel brush-emas">
         <img class="sec-icon" src="assets/undangya/maple-gugur/icon-gift.webp" alt="" loading="lazy" decoding="async">
         <div class="sec-kicker">AMPLOP DIGITAL</div>
         <h2 class="sec-title">Tanda Kasih</h2>
@@ -644,7 +699,7 @@ body.opened #btnMusic{display:flex}
     <!-- ================= TURUT MENGUNDANG ================= -->
     <section id="turut">
       <div class="bg-tint">
-        <div class="sec-head rv rv-up head-panel">
+        <div class="sec-head rv rv-up head-panel brush-merah">
           <img class="sec-decor" src="assets/undangya/maple-gugur/crest.webp" alt="" loading="lazy" decoding="async">
           <div class="sec-kicker">TURUT MENGUNDANG</div>
           <h2 class="sec-title">Turut Mengundang</h2>
@@ -745,7 +800,7 @@ body.opened #btnMusic{display:flex}
   /* --- galeri lightbox --- */
   var lb=document.getElementById("lightbox"), lbImg=document.getElementById("lbImg");
   if(rail)rail.addEventListener("click",function(e){
-    var img=e.target.closest("img"); if(!img)return;
+    var img=e.target.closest(".album-photo img"); if(!img)return;
     lbImg.src=img.src; lb.classList.add("on");
   });
   lb.addEventListener("click",function(){lb.classList.remove("on");lbImg.src="";});
